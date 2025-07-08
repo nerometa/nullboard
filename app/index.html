@@ -933,11 +933,18 @@
 	/***/
 
 	.config .bulk .section .title {
-		text-align: center;
+		background: none;
+		border: none;
+		cursor: pointer;
+		padding: 0;
 		width: 0;
-		display: inline-block;
+		text-align: center;
 		white-space: pre;
-		transition: width 250ms, padding 250ms;
+		transition: width 250ms, padding 250ms, color 200ms;
+
+		&:hover {
+			color: #1489db;
+		}
 	}
 
 	.config .bulk .section .title u {
@@ -966,7 +973,7 @@
 	.config .bulk .section.open .title {
 		width: 100%;
 		font-weight: 500;
-		padding-left: 5px;
+		padding-left: 8px;
 		transition: width 250ms, padding 250ms;
 	}
 
@@ -1572,9 +1579,8 @@
 				<input class=imp-board-select type="file" accept=".nbx">
 
 			<a href=# class=auto-backup>Auto-backup...</a>
-
-			<div class="section ui-prefs break">
-				<a href=# class=title>UI preferences<u>...</u></a>
+			<div x-data="{ open: false }" class="section ui-prefs break" :class="{ 'open': open }">
+				<button class=title x-on:click="open = !open">UI preferences<u>...</u></button>
 				<div class=details>
 					<a href="#" class="switch-font active break" font="barlow">Use Barlow</a>
 					<a href="#" class="switch-font" font="ibm-plex">Use IBM Plex Sans</a>
@@ -4964,12 +4970,6 @@
 
 	$('.config .auto-backup').on('click', function(){
 		configBackups();
-	});
-
-	//
-	$('.config .section .title').on('click', function(){
-		$(this).closest('.section').toggleClass('open');
-		return false;
 	});
 
 	$('.config').on('click', '.switch-font', function(){
