@@ -1,6 +1,6 @@
-# Nullboard
+# Nullishboard
 
-Nullboard is a minimalist take on a kanban board / a task list manager, designed to be compact, readable and quick in use.
+Nullishboard is my personal fork of Nullboard, a minimalist take on a kanban board / a task list manager, designed to be compact, readable and quick in use.
 
 https://nullboard.io/preview
 
