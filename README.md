@@ -2,6 +2,14 @@
 
 Nullishboard is my personal fork of Nullboard, a minimalist take on a kanban board / a task list manager, designed to be compact, readable and quick in use.
 
+My modifications:
+- [ ] Migrated jQuery to Alpine.js
+- [ ] Introduced (some kind of) database for multi-device sync
+- [ ] UI and codebase cleanup
+
+This fork is intended strictly for personal use and learning purposes, and so you are welcome to fork this repository.
+Nullboard and its original author are not affiliated with or endorse this version.
+
 https://nullboard.io/preview
 
 ![Nullboard](images/nullboard-example-alt.png)
