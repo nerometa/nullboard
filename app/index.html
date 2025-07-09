@@ -1,5 +1,5 @@
 ﻿<!doctype html>
-<html>
+<html x-data="font" :class="`f-${font}`">
 <head>
   <!--
 
@@ -1579,14 +1579,14 @@
 				<input class=imp-board-select type="file" accept=".nbx">
 
 			<a href=# class=auto-backup>Auto-backup...</a>
-			<div x-data="{ open: false }" class="section ui-prefs break" :class="{ 'open': open }">
-				<button class=title x-on:click="open = !open">UI preferences<u>...</u></button>
+			<div class="section ui-prefs break" x-data="{ open: false }" :class="{ 'open': open }">
+				<button class=title @click="open = !open">UI preferences<u>...</u></button>
 				<div class=details>
-					<a href="#" class="switch-font active break" font="barlow">Use Barlow</a>
-					<a href="#" class="switch-font" font="ibm-plex">Use IBM Plex Sans</a>
-					<a href="#" class="switch-font" font="open-sans">Use Open Sans</a>
-					<a href="#" class="switch-font" font="segoe-ui">Use Segoe UI</a>
-					<a href="#" class="switch-font" font="maven-pro">Use Maven Pro</a>
+					<a href="#" class="switch-font break" font="barlow" @click="switchFont('barlow')" :class="font === 'barlow' && 'active'">Use Barlow</a>
+					<a href="#" class="switch-font" font="ibm-plex" @click="switchFont('ibm-plex')" :class="font === 'ibm-plex' && 'active'">Use IBM Plex Sans</a>
+					<a href="#" class="switch-font" font="open-sans" @click="switchFont('open-sans')" :class="font === 'open-sans' && 'active'">Use Open Sans</a>
+					<a href="#" class="switch-font" font="segoe-ui" @click="switchFont('segoe-ui')" :class="font === 'segoe-ui' && 'active'">Use Segoe UI</a>
+					<a href="#" class="switch-font" font="maven-pro" @click="switchFont('maven-pro')" :class="font === 'maven-pro' && 'active'">Use Maven Pro</a>
 
 					<div class='f-prefs break'>
 						<table>
@@ -4454,10 +4454,10 @@
 			if (conf.fontName && ! isUsable(conf.fontName))
 			{
 				NB.storage.setFontName(null);
-				selectFont(null);
+				// selectFont(null);
 			}
 
-			selectFont(conf.fontName || 'barlow');
+			// selectFont(conf.fontName || 'barlow');
 
 			if (conf.fontSize)
 				setFontSize(conf.fontSize);
@@ -4502,18 +4502,14 @@
 		});
 	}
 
-	function selectFont(font)
-	 {
-		var $html = $('html');
-		$html.removeClass('f-' + NB.font).addClass('f-' + font);
-		NB.font = font;
+	// function selectFont(font)
+	//  {
+	// 	let $html = $('html');
+	// 	$html.removeClass('f-' + NB.font).addClass('f-' + font);
+	// 	NB.font = font;
 
-		var $list = $('.config .switch-font');
-		$list.removeClass('active');
-		$list.filter('[font="' + font + '"]').addClass('active');
-
-		updateVarsAndLayout();
-	}
+	// 	updateVarsAndLayout();
+	// }
 
 	//
 	function getVar(name)
@@ -4972,12 +4968,17 @@
 		configBackups();
 	});
 
-	$('.config').on('click', '.switch-font', function(){
-		var font = $(this).attr('font');
-		selectFont(font);
-		NB.storage.setFontName(font);
-		return false;
-	});
+	document.addEventListener('alpine:init', () => {
+		Alpine.data('font', () => ({
+			font: NB.peek('fontName') || 'barlow',
+			switchFont(font) {
+				if (this.font === font) return;
+				this.font = font;
+				updateVarsAndLayout();
+				NB.storage.setFontName(this.font);
+			}
+		}));
+	})
 
 	//
 	$('.config .f-prefs .ui-fs .less').on('click', function(){
